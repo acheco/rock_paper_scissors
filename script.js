@@ -12,13 +12,20 @@ let currentRound = 0;
 const round = document.querySelector("span");
 round.textContent = String(currentRound);
 
+const humanPoints = document.querySelector(".humanScore");
+const computerPoints = document.querySelector(".computerScore");
+
 // get the value of the clicked button and sending to the playRound function
 const button = document.querySelectorAll("input");
 
 for (let i = 0; i < button.length; i++) {
     button[i].addEventListener("click", (e) => {
 
-        playRound(e.target.value, getComputerChoice());
+        if (humanScore === 5 || computerScore === 5) {
+            showWinner(true);
+        }else {
+            playRound(e.target.value, getComputerChoice());
+        }
 
     });
 }
@@ -34,28 +41,24 @@ function getComputerChoice() {
 function playRound(humanChoice, computerChoice) {
     let formatedHumanChoice = humanChoice.toLowerCase();
 
-   if (showWinner()){
-       return;
-   }
-
     ++currentRound;
     round.textContent = String(currentRound);
 
     if (formatedHumanChoice === "paper" && computerChoice === "rock") {
         humanScore = ++humanScore;
-        console.log(humanScore);
+        humanPoints.textContent = humanScore;
         return result.textContent = `You win! ${formatedHumanChoice} beat ${computerChoice}!`;
     }
 
     if (formatedHumanChoice === "scissor" && computerChoice === "paper") {
         humanScore = ++humanScore;
-        console.log(humanScore);
+        humanPoints.textContent = humanScore;
         return result.textContent = `You win! ${formatedHumanChoice} beat ${computerChoice}!`;
     }
 
     if (formatedHumanChoice === "rock" && computerChoice === "scissor") {
         humanScore = ++humanScore;
-        console.log(humanScore);
+        humanPoints.textContent = humanScore;
         return result.textContent = `You win! ${formatedHumanChoice} beat ${computerChoice}!`;
     }
 
@@ -64,18 +67,14 @@ function playRound(humanChoice, computerChoice) {
     }
 
     computerScore = ++computerScore;
-    console.log(computerScore);
+    computerPoints.textContent = computerScore;
     return result.textContent = `You lose! ${computerChoice} beat ${formatedHumanChoice}`;
 
 }
 
-function showWinner(){
-    if (humanScore === 5){
-      return result.textContent = `You win! your final score is ${humanScore}`;
-    }
-
-    if(computerScore === 5){
-      return result.textContent = `You lose! your final score is ${humanScore}`;
+function showWinner(show) {
+    if (show) {
+        return (humanScore === 5) ? result.textContent = `You win! congrats.` : result.textContent = `The computer Win! you can try again!`
     }
 
 }
@@ -86,6 +85,9 @@ reset.addEventListener("click", () => {
     computerScore = 0;
     result.textContent = "";
     round.textContent = String(0);
+    currentRound = 0;
+    humanPoints.textContent = "";
+    computerPoints.textContent = "";
 })
 
 
