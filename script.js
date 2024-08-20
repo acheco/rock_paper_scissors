@@ -17,9 +17,8 @@ const button = document.querySelectorAll("input");
 
 for (let i = 0; i < button.length; i++) {
     button[i].addEventListener("click", (e) => {
-        if (humanScore < 5 || computerScore < 5) {
-            playRound(e.target.value, getComputerChoice());
-        }
+
+        playRound(e.target.value, getComputerChoice());
 
     });
 }
@@ -35,23 +34,28 @@ function getComputerChoice() {
 function playRound(humanChoice, computerChoice) {
     let formatedHumanChoice = humanChoice.toLowerCase();
 
-    showWinner();
+   if (showWinner()){
+       return;
+   }
 
     ++currentRound;
     round.textContent = String(currentRound);
 
     if (formatedHumanChoice === "paper" && computerChoice === "rock") {
         humanScore = ++humanScore;
+        console.log(humanScore);
         return result.textContent = `You win! ${formatedHumanChoice} beat ${computerChoice}!`;
     }
 
     if (formatedHumanChoice === "scissor" && computerChoice === "paper") {
         humanScore = ++humanScore;
+        console.log(humanScore);
         return result.textContent = `You win! ${formatedHumanChoice} beat ${computerChoice}!`;
     }
 
     if (formatedHumanChoice === "rock" && computerChoice === "scissor") {
         humanScore = ++humanScore;
+        console.log(humanScore);
         return result.textContent = `You win! ${formatedHumanChoice} beat ${computerChoice}!`;
     }
 
@@ -60,6 +64,7 @@ function playRound(humanChoice, computerChoice) {
     }
 
     computerScore = ++computerScore;
+    console.log(computerScore);
     return result.textContent = `You lose! ${computerChoice} beat ${formatedHumanChoice}`;
 
 }
@@ -73,29 +78,16 @@ function showWinner(){
       return result.textContent = `You lose! your final score is ${humanScore}`;
     }
 
-    console.log(humanScore);
-    console.log(computerScore)
 }
 
+const reset = document.querySelector("button");
+reset.addEventListener("click", () => {
+    humanScore = 0;
+    computerScore = 0;
+    result.textContent = "";
+    round.textContent = String(0);
+})
 
-/*
-    for (let i = 5; i > 0; i--) {
-        currentRound = ++currentRound
-        console.log(`Round number ${currentRound}`)
-        playRound(getHumanChoice(), getComputerChoice());
-
-    }
-*/
-
-/*
-if (humanScore > computerScore) {
-     console.log(`You win! your final score is ${humanScore}`)
-} else if (computerScore > humanScore) {
-     console.log(`You lose! computer score is ${computerScore} and you only have ${humanScore}`);
-} else {
-     console.log(`It´s a tie! computer score is ${computerScore} and you have ${humanScore}`);
-}
-*/
 
 
 
